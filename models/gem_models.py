@@ -1,10 +1,16 @@
 from typing import Optional
-from sqlmodel import SQLModel, Field
-from enum import Enum, IntEnum
+from sqlmodel import SQLModel, Field, Relationship
+from enum import Enum as Enum_, IntEnum
+
+
+class Enum(Enum_):
+    @classmethod
+    def list(cls):
+        return list(map(lambda c: c.value, cls))
 
 
 class GemTypes(str, Enum):
-    DIAMOND = 'DIAMON'
+    DIAMOND = 'DIAMOND'
     RUBY = 'RUBY'
     EMERALD = 'EMERALD'
 
@@ -30,14 +36,13 @@ class GemProperties(SQLModel, table=True):
     size: float = 1
     clarity: Optional[GemClarity] = None
     color: Optional[GemColor] = None
+    gem: Optional['Gem'] = Relationship(back_populates='gem_properties')
 
 
 class Gem(SQLModel, table=True):
     id: Optional[int] = Field(primary_key=True)
     price: float
     available: bool = True
-    gem_type: GemTypes = GemTypes.DIAMOND #default val
-
-    #creating foregin keys
+    gem_type: GemTypes = GemTypes.DIAMOND
     gem_properties_id: Optional[int] = Field(default=None, foreign_key='gemproperties.id')
-
+    gem_properties: Optional[GemProperties] = Relationship(back_populates='gem')
