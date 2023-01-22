@@ -46,3 +46,12 @@ class Gem(SQLModel, table=True):
     gem_type: GemTypes = GemTypes.DIAMOND
     gem_properties_id: Optional[int] = Field(default=None, foreign_key='gemproperties.id')
     gem_properties: Optional[GemProperties] = Relationship(back_populates='gem')
+
+class GemPatch(SQLModel):
+    id: Optional[int] = Field(primary_key=True)
+    price:  Optional[float] = 1000
+    available:  Optional[bool] = True
+    gem_type:  Optional[GemTypes] = GemTypes.DIAMOND
+
+    gem_properties_id: Optional[int] = Field(default=None, foreign_key='gemproperties.id')
+    gem_properties: Optional[GemProperties] = Relationship(back_populates='gem')

@@ -70,4 +70,4 @@ def create_gems_db():
         session.add_all(gems)
         session.commit()
 
-create_gems_db()
+#create_gems_db()
