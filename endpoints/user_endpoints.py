@@ -6,7 +6,7 @@ from starlette.status import HTTP_201_CREATED,HTTP_404_NOT_FOUND
 from auth.auth import AuthHandler
 from db.db import session
 from models.user_models import UserInput, User, UserLogin
-from repos.user_repos import select_all_users
+from repos.user_repos import find_user, select_all_users
 
 user_router = APIRouter()
 auth_handler = AuthHandler()
@@ -24,4 +24,15 @@ def register(user: UserInput):
              is_seller=user.is_seller)
     session.add(u)
     session.commit()
-    return JSONResponse('asdf',status_code=201)
+    return JSONResponse('Success', status_code=201)
+
+@user_router.post('/login', tags=['users'])
+def login(user: UserLogin):
+    user_found = find_user(user.username)
+    if not user_found:
+        raise HTTPException(status_code=401, detail='Invalid usename and/or password')
+    verified = auth_handler.verify_password(user.password, user_found.password)
+    if not verified:
+        raise HTTPException(status_code=401, detail='Invalid usename and/or password')
+    token = auth_handler.encode_token(user_found.username)
+    return {'token': token}
