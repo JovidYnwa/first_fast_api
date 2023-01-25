@@ -2,8 +2,8 @@ from fastapi import APIRouter, HTTPException, Security, security, Depends
 from fastapi.security import HTTPAuthorizationCredentials
 from starlette.responses import JSONResponse
 from starlette.status import HTTP_201_CREATED,HTTP_404_NOT_FOUND
-
 from auth.auth import AuthHandler
+
 from db.db import session
 from models.user_models import UserInput, User, UserLogin
 from repos.user_repos import find_user, select_all_users

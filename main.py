@@ -13,4 +13,4 @@ app.include_router(user_router)
 
 if __name__ == "__main__":
     uvicorn.run('main:app', host="localhost", port=8000, reload=True)
-    #2:49
+    #3:01

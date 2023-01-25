@@ -15,8 +15,3 @@ def find_user(name):
     with Session(engine) as session:
         statement = select(User).where(User.username == name)
         return session.exec(statement).first()
-
-def find_user(name):
-    with Session(engine) as session:
-        statement = select(User).where(User.username == name)
-        return session.exec(statement).first()
